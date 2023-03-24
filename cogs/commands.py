@@ -21,7 +21,8 @@ class Commands(commands.Cog):
 
     @tasks.loop(seconds=60)
     async def produce_drugs(self):
-        await self.bot.db.execute('INSERT INTO drug_stock (meth_amount) VALUES ($1)', 2)
+        current_amount = await self.bot.db.fetchval('SELECT meth_amount FROM drug_stock')
+        await self.bot.db.execute('INSERT INTO drug_stock (meth_amount) VALUES ($1)', current_amount + 2)
     
 async def setup(bot):
     await bot.add_cog(Commands(bot))
