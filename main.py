@@ -22,6 +22,19 @@ class Bot(commands.Bot):
         self.produce = 0
 
     async def setup_hook(self):
+        self.db = await asyncpg.create_pool(db_token)
+        await self.db.execute('''
+            CREATE TABLE IF NOT EXISTS user_inventory (
+                user_id BIGINT NOT NULL,
+                user_name TEXT NOT NULL,
+                drug_amount BIGINT NULL
+            );
+        ''')
+        await self.db.execute('''
+            CREATE TABLE IF NOT EXISTS drug_stock (
+                meth_amount BIGINT NOT NULL
+            );
+        ''')
         for filename in os.listdir('./cogs'):
             if filename.endswith('.py'):
                 await self.load_extension(f'cogs.{filename[:-3]}')
