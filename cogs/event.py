@@ -25,6 +25,7 @@ class Event(commands.Cog):
         if message.content.lower() != "verify me":
             await message.delete()
         else:
+            await message.delete()
             await message.author.add_roles(message.guild.get_role(1097199833917444237))
         
 async def setup(bot):
