@@ -28,14 +28,23 @@ class Event(commands.Cog):
         if message.content.lower() != "verify me":
             await message.delete()
         else:
+            logs = self.bot.get_channel(1097214136460517476)
+            channel = self.bot.get_channel(1097198382969274399)
             await message.delete()
             await message.author.add_roles(message.guild.get_role(1097199833917444237))
+            await channel.send(f'{message.author.mention} welcome to the server!')
+            await logs.send(f'{message.author} verified themselves')
 
     @commands.Cog.listener()
     async def on_message_delete(self, message : discord.Message):
         channel = self.bot.get_channel(1097214136460517476)
-        await channel.send(f'{message.author} deleted "{message.content}" in {message.channel.mention}')
-    
+        await channel.send(f'{message.author} deleted "{message.content}" in {message.channel.mention}') 
+
+    @commands.Cog.listener()
+    async def on_member_join(self, member):
+        channel = self.bot.get_channel(1097214136460517476)
+        await channel.send(f'member {member} joined the server')
+        
     
         
 async def setup(bot):
