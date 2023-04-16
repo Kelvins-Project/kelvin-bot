@@ -2,7 +2,7 @@ from discord.ext import commands
 import traceback
 import sys
 import discord
-from io import BytesIO
+import datetime
 class Event(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -19,23 +19,13 @@ class Event(commands.Cog):
             await self.bot.invoke(ctx)
 
     @commands.Cog.listener()
-    async def on_user_update(self, before : discord.User, after : discord.User):
-        if before.id != 675104167345258506:
-            return
-        elif before.name != after.name:
-            await self.bot.user.edit(username=after.name)
-        elif before.avatar.url != after.avatar.url:
-            image_bytes = await self.bot.session.get(after.avatar.url)
-            image = BytesIO(await image_bytes.read())
-            await self.bot.user.edit(avatar=image.getvalue())
-
-    @commands.Cog.listener()
-    async def on_presence_update(self, before : discord.Member, after : discord.Member):
-        if before.id != 675104167345258506:
-            return
-        elif before.status != after.status:
-            await self.bot.change_presence(status=after.status)
-
-
+    async def on_message(self, message : discord.Message):
+        if message.channel.id != 1097200149035483238:
+            return 
+        if message.content.lower() != "verify me":
+            await message.delete()
+        else:
+            await message.author.add_roles(message.guild.get_role(1097199833917444237))
+        
 async def setup(bot):
     await bot.add_cog(Event(bot))
