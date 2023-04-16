@@ -17,6 +17,9 @@ class Event(commands.Cog):
         if before.content != after.content:
             ctx = await self.bot.get_context(after)
             await self.bot.invoke(ctx)
+        channel = self.bot.get_channel(1097214136460517476)
+        await channel.send(f'{after.author} editted "{before.content}" to "{after.content}" in {after.channel.mention}')
+    
 
     @commands.Cog.listener()
     async def on_message(self, message : discord.Message):
@@ -27,6 +30,13 @@ class Event(commands.Cog):
         else:
             await message.delete()
             await message.author.add_roles(message.guild.get_role(1097199833917444237))
+
+    @commands.Cog.listener()
+    async def on_message_delete(self, message : discord.Message):
+        channel = self.bot.get_channel(1097214136460517476)
+        await channel.send(f'{message.author} deleted "{message.content}" in {message.channel.mention}')
+    
+    
         
 async def setup(bot):
     await bot.add_cog(Event(bot))
