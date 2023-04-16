@@ -1,10 +1,8 @@
 import discord 
 from discord.ext import commands
 import os
-from config import bot_token, wavelink_token, spotify_client_id, spotify_client_secret
-import wavelink
-from wavelink.ext import spotify
-import aiospotify
+from config import bot_token
+
 
 prefix = ['kelvin ', 'kel ', 'kelkel ', '<@944623479523774464> ', '<@944623479523774464>']
 
