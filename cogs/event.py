@@ -34,8 +34,15 @@ class Event(commands.Cog):
         loge = discord.Embed(title="Member Joined", description=f"{member.mention} has joined the server.", color=0x2F3136)
         await log.send(embed=loge)
         await channel.send(embed=embed)
-        
-    
+
+    @commands.Cog.listener()
+    async def on_member_leave(self, member):
+        log = self.bot.get_channel(1097334267060682873)
+        loge = discord.Embed(title="Member Left", description=f"{member.mention} has left the server.", color=0x2F3136)
+        await log.send(embed=loge)
+
+            
+
         
 async def setup(bot):
     await bot.add_cog(Event(bot))
