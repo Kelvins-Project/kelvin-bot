@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import os
 from config import bot_token
+import aiohttp
 
 
 prefix = ['kelvin ', 'kel ', 'kelkel ', '<@944623479523774464> ', '<@944623479523774464>']
@@ -21,6 +22,7 @@ class Bot(commands.Bot):
                         owner_ids = [675104167345258506])
 
     async def setup_hook(self):
+        self.session = aiohttp.ClientSession()
         for filename in os.listdir('./cogs'):
             if filename.endswith('.py'):
                 await self.load_extension(f'cogs.{filename[:-3]}')
