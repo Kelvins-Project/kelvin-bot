@@ -53,14 +53,14 @@ class YTDLSource(discord.PCMVolumeTransformer):
         return self.__getattribute__(item)
 
     @classmethod
-    async def create_source(cls, ctx, search: str, *, loop, download=True):
+    async def create_source(cls, ctx, search: str, *, loop, download=False):
 
         loop = loop or asyncio.get_event_loop()
 
         to_run = partial(ytdl.extract_info, url=search, download=download)
         data = await loop.run_in_executor(None, to_run)
         if 'entries' in data:
-            # take first item from a playlist
+
             data = data['entries'][0]
         embed = discord.Embed(description=f'added `{data["title"]}` to the queue', color=0x2F3136)
         await ctx.send(embed=embed)
@@ -96,7 +96,7 @@ class MusicPlayer:
         self.next = asyncio.Event()
 
         self.np = None 
-        self.volume = .5
+        self.volume = .1
         self.current = None
 
         ctx.bot.loop.create_task(self.player_loop())
