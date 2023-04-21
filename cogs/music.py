@@ -25,7 +25,7 @@ ytdlopts = {
 }
 
 ffmpegopts = {
-    'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5 -nostdin ',
+    'before_options': '-nostdin ',
     'options': '-vn'
 }
 
@@ -53,7 +53,7 @@ class YTDLSource(discord.PCMVolumeTransformer):
         return self.__getattribute__(item)
 
     @classmethod
-    async def create_source(cls, ctx, search: str, *, loop, download=False):
+    async def create_source(cls, ctx, search: str, *, loop, download=True):
 
         loop = loop or asyncio.get_event_loop()
 
