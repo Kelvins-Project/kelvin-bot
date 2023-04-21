@@ -3,7 +3,7 @@ from discord.ext import commands
 import os
 from config import bot_token
 import aiohttp
-
+import wavelink
 
 prefix = ['kelvin ', 'kel ', 'kelkel ', '<@944623479523774464> ', '<@944623479523774464>']
 
@@ -27,6 +27,8 @@ class Bot(commands.Bot):
             if filename.endswith('.py'):
                 await self.load_extension(f'cogs.{filename[:-3]}')
                 print(f"{filename[:-3]} has been loaded!")
+        node: wavelink.Node = wavelink.Node(uri='167.235.231.92:25011', password='ffmpegsucks')
+        await wavelink.NodePool.connect(client=self, nodes=[node])
 
     async def on_ready(self):
         print(self.user.id)
