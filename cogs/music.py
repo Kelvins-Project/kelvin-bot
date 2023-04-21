@@ -298,6 +298,7 @@ class Music(commands.Cog):
 
     @commands.hybrid_command(name='np', description='Displays the currently playing song.')
     async def now_playing_(self, ctx):
+        nothing = discord.Embed(description=f'nothing is being played', color=0x2F3136)
         vc = ctx.voice_client
 
         if not vc or not vc.is_connected():
@@ -305,19 +306,19 @@ class Music(commands.Cog):
 
         player = self.get_player(ctx)
         if not player.current:
-            return await ctx.send('I am not currently playing anything!')
-
+            return await ctx.send(embed=nothing)
+        embed = discord.Embed(description=f'now playing: `{vc.source.title}` requested by {vc.source.requester.mention}', color=0x2F3136)
         try:
             # Remove our previous now_playing message.
             await player.np.delete()
         except discord.HTTPException:
             pass
 
-        player.np = await ctx.send(f'**Now Playing:** `{vc.source.title}` '
-                                   f'requested by `{vc.source.requester}`')
+        player.np = await ctx.send(embed=embed)
 
     @commands.hybrid_command(name='volume', description='Changes the volume of the player.')
     async def change_volume(self, ctx, *, vol: float):
+        embed = discord.Embed(description=f'{ctx.author.mention}: set the volume to `{vol}%`', color=0x2F3136)
         vc = ctx.voice_client
 
         if not vc or not vc.is_connected():
@@ -332,16 +333,17 @@ class Music(commands.Cog):
             vc.source.volume = vol / 100
 
         player.volume = vol / 100
-        await ctx.send(f'**`{ctx.author}`**: Set the volume to **{vol}%**')
+        await ctx.send(embed=embed)
 
     @commands.hybrid_command(name='leave', description='Stops the currently playing song and destroys the player.')
     async def leave_(self, ctx):
         vc = ctx.voice_client
-
+        embed = discord.Embed(description=f'disconnected from: {ctx.author.voice.channel.mention}', color=0x2F3136)
         if not vc or not vc.is_connected():
-            return await ctx.send('I am not currently playing anything!', delete_after=20)
+            pass
 
         await self.cleanup(ctx.guild)
+        await ctx.send(embed=embed)
 
 
 async def setup(bot):
