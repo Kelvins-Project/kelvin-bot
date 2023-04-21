@@ -95,7 +95,7 @@ class MusicPlayer:
         self.queue = asyncio.Queue()
         self.next = asyncio.Event()
 
-        self.np = None  # Now playing message
+        self.np = None 
         self.volume = .5
         self.current = None
 
@@ -108,15 +108,12 @@ class MusicPlayer:
             self.next.clear()
 
             try:
-                # Wait for the next song. If we timeout cancel the player and disconnect...
-                async with timeout(300):  # 5 minutes...
+                async with timeout(300): 
                     source = await self.queue.get()
             except asyncio.TimeoutError:
                 return self.destroy(self._guild)
             
             if not isinstance(source, YTDLSource):
-                # Source was probably a stream (not downloaded)
-                # So we should regather to prevent stream expiration
                 try:
                     source = await YTDLSource.regather_stream(source, loop=self.bot.loop)
                 except Exception as e:
@@ -132,12 +129,10 @@ class MusicPlayer:
             self.np = await self._channel.send(embed=embed)
             await self.next.wait()
 
-            # Make sure the FFmpeg process is cleaned up.
             source.cleanup()
             self.current = None
 
             try:
-                # We are no longer playing this song...
                 await self.np.delete()
             except discord.HTTPException:
                 pass
@@ -288,7 +283,6 @@ class Music(commands.Cog):
         if player.queue.empty():
             return await ctx.send('There are currently no more queued songs.')
 
-        # Grab up to 5 entries from the queue...
         upcoming = list(itertools.islice(player.queue._queue, 0, 5))
 
         fmt = '\n'.join(f'`{_["title"]}`' for _ in upcoming)
@@ -309,7 +303,6 @@ class Music(commands.Cog):
             return await ctx.send(embed=nothing)
         embed = discord.Embed(description=f'now playing: `{vc.source.title}` requested by {vc.source.requester.mention}', color=0x2F3136)
         try:
-            # Remove our previous now_playing message.
             await player.np.delete()
         except discord.HTTPException:
             pass
