@@ -36,7 +36,7 @@ class Event(commands.Cog):
         await channel.send(embed=embed)
 
     @commands.Cog.listener()
-    async def on_member_leave(self, member):
+    async def on_member_remove(self, member):
         log = self.bot.get_channel(1097334267060682873)
         loge = discord.Embed(title="Member Left", description=f"{member.mention} has left the server.", color=0x2F3136)
         await log.send(embed=loge)

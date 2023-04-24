@@ -1,7 +1,7 @@
 import discord 
 from discord.ext import commands
 import os
-from config import bot_token
+from config import bot_token, lava_token
 import aiohttp
 import wavelink
 
@@ -27,7 +27,7 @@ class Bot(commands.Bot):
             if filename.endswith('.py'):
                 await self.load_extension(f'cogs.{filename[:-3]}')
                 print(f"{filename[:-3]} has been loaded!")
-        node: wavelink.Node = wavelink.Node(uri='167.235.231.92:25011', password='ffmpegsucks')
+        node: wavelink.Node = wavelink.Node(uri='167.235.231.92:25011', password=lava_token)
         await wavelink.NodePool.connect(client=self, nodes=[node])
 
     async def on_ready(self):
