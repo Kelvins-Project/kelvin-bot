@@ -40,7 +40,7 @@ class Music(commands.Cog):
     @commands.hybrid_command(name='play', description='Plays a song. If a song is already playing, it will be added to the queue.')
     async def play_(self, ctx, *, search: str):
         embed = discord.Embed(color=0x2F3136)
-        queue = discord.Embed(description=f'added to queue: {search} requested by {ctx.author.mention}', color=0x2F3136)
+        queue = discord.Embed(color=0x2F3136)
 
         if not ctx.voice_client:
             vc: wavelink.Player = await ctx.author.voice.channel.connect(cls=wavelink.Player)
@@ -50,6 +50,7 @@ class Music(commands.Cog):
         vc.autoplay = True
         track = await wavelink.YouTubeTrack.search(search, return_first=True)
         embed.description = f'playing: {track.title} requested by {ctx.author.mention}'
+        queue.description = f'queued: {track.title} requested by {ctx.author.mention}'
 
         if not vc.is_playing():
             await vc.play(track, populate=True)
