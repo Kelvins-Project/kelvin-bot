@@ -37,7 +37,7 @@ class Music(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.hybrid_command(name='play', description='Plays a song. If a song is already playing, it will be added to the queue.')
+    @commands.hybrid_command(name='play', description='Plays a song. If a song is already playing, it will be added to the queue.', with_app_command=True)
     async def play_(self, ctx, *, search: str):
         embed = discord.Embed(color=0x2F3136)
         queue = discord.Embed(color=0x2F3136)
@@ -49,20 +49,20 @@ class Music(commands.Cog):
 
         vc.autoplay = True
         track = await wavelink.YouTubeTrack.search(search, return_first=True)
-        embed.description = f'playing: {track.title} requested by {ctx.author.mention}'
-        queue.description = f'queued: {track.title} requested by {ctx.author.mention}'
+        embed.description = f'playing: `{track.title}` requested by {ctx.author.mention}'
+        queue.description = f'queued: `{track.title}` requested by {ctx.author.mention}'
 
         if not vc.is_playing():
             await vc.play(track, populate=True)
             await ctx.send(embed=embed)
-        else:
+        elif vc.is_playing():
             await vc.queue.put_wait(track)
             await ctx.send(embed=queue)
 
     @commands.hybrid_command(name='pause', description='Pauses the currently playing song.')
     async def pause_(self, ctx):
         vc: wavelink.Player = ctx.voice_client
-        embed = discord.Embed(description=f'paused {vc.current.title} by {ctx.author.mention}', color=0x2F3136)
+        embed = discord.Embed(description=f'paused `{vc.current.title}` by {vc.current.author}', color=0x2F3136)
         if not vc or not vc.is_playing():
             pass
 
@@ -72,7 +72,7 @@ class Music(commands.Cog):
     @commands.hybrid_command(name='resume', description='Resumes the currently playing song.')
     async def resume_(self, ctx):
         vc: wavelink.Player = ctx.voice_client
-        embed = discord.Embed(description=f'resumed {vc.current.title} by {ctx.author.mention}', color=0x2F3136)
+        embed = discord.Embed(description=f'resumed `{vc.current.title}` by {vc.current.author}', color=0x2F3136)
         if not vc or not vc.is_playing():
             pass
 
@@ -82,7 +82,7 @@ class Music(commands.Cog):
     @commands.hybrid_command(name='skip', description='Skips the currently playing song.')
     async def skip_(self, ctx):
         vc: wavelink.Player = ctx.voice_client
-        embed = discord.Embed(description=f'skipped {vc.current.title} by {ctx.author.mention}', color=0x2F3136)
+        embed = discord.Embed(description=f'skipped `{vc.current.title}` by {vc.current.author}', color=0x2F3136)
         if not vc or not vc.is_playing():
             pass
         await vc.stop()
@@ -92,14 +92,16 @@ class Music(commands.Cog):
     async def queue_(self, ctx):
         vc: wavelink.Player = ctx.voice_client
         embed = discord.Embed(description=f'queue for {ctx.guild.name}', color=0x2F3136)
+
         if not vc or not vc.is_playing():
             pass
-
         if vc.queue.is_empty:
             embed.description = 'there is nothing in the queue.'
         else:
-            async for track in vc.queue:
-                embed.add_field(name=track.title, value=track.author, inline=False)
+            num = 1
+            for track in vc.queue:
+                embed.add_field(name=f'{num}. {track.title}', value=f'by `{track.author}`', inline=False)
+                num += 1
 
         await ctx.send(embed=embed)
 

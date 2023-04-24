@@ -1,9 +1,10 @@
 import discord 
 from discord.ext import commands
 import os
-from config import bot_token, lava_token
+from config import bot_token, lava_token, client_id, client_secret
 import aiohttp
 import wavelink
+from wavelink.ext import spotify
 
 prefix = ['kelvin ', 'kel ', 'kelkel ', '<@944623479523774464> ', '<@944623479523774464>']
 
@@ -27,8 +28,9 @@ class Bot(commands.Bot):
             if filename.endswith('.py'):
                 await self.load_extension(f'cogs.{filename[:-3]}')
                 print(f"{filename[:-3]} has been loaded!")
+        sc = spotify.SpotifyClient(client_id=client_id, client_secret=client_secret)
         node: wavelink.Node = wavelink.Node(uri='167.235.231.92:25011', password=lava_token)
-        await wavelink.NodePool.connect(client=self, nodes=[node])
+        await wavelink.NodePool.connect(client=self, nodes=[node], spotify=sc)
 
     async def on_ready(self):
         print(self.user.id)
