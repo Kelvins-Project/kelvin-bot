@@ -1,5 +1,7 @@
 from discord.ext import commands
 import discord
+from bs4 import BeautifulSoup
+import asyncio
 
 class Misc(commands.Cog):
     def __init__(self, bot):
@@ -15,10 +17,9 @@ class Misc(commands.Cog):
         embed.set_footer(text=f'ping {round(self.bot.latency * 1000)}ms')
         await ctx.send(embed=embed)
 
-    @commands.hybrid_command(name='pinterest', description='Scrapes given link from pinterest')
-    async def pinterest(self, ctx, link: commands.Greedy[Greedy]):
-        for x in link:
-            await ctx.send(f'https://pinterest.com/{x[0]}')
+
+            
+
         
 async def setup(bot):
     await bot.add_cog(Misc(bot))
