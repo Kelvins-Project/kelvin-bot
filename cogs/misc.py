@@ -4,16 +4,21 @@ import discord
 class Misc(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-    
-    @commands.hybrid_command(name='ping', description='Get the bot\'s latency')
-    async def ping(self, ctx):
-        await ctx.send(f'Pong! {round(self.bot.latency * 1000)}ms')
-    
-    @commands.hybrid_command(name='mc', description='Get the member count of the server')
-    async def member_count(self, ctx):
-        await ctx.send(f'There are {ctx.guild.member_count} members in this server')
 
-    
+    class Greedy(commands.Converter):
+        async def convert(self, ctx, *links):
+            return list(links)
+        
+    @commands.hybrid_command(name='info', description='Get the bot\'s info')
+    async def info(self, ctx):
+        embed = discord.Embed(description=f'bot sees {ctx.guild.member_count} users', color=0x2F3136)
+        embed.set_footer(text=f'ping {round(self.bot.latency * 1000)}ms')
+        await ctx.send(embed=embed)
+
+    @commands.hybrid_command(name='pinterest', description='Scrapes given link from pinterest')
+    async def pinterest(self, ctx, link: commands.Greedy[Greedy]):
+        for x in link:
+            await ctx.send(f'https://pinterest.com/{x[0]}')
         
 async def setup(bot):
     await bot.add_cog(Misc(bot))
