@@ -4,10 +4,6 @@ import discord
 class Misc(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
-    class Greedy(commands.Converter):
-        async def convert(self, ctx, *links):
-            return list(links)
         
     @commands.hybrid_command(name='info', description='Get the bot\'s info')
     async def info(self, ctx):

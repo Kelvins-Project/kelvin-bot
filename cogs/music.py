@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import asyncio
 import wavelink
+from wavelink.ext import spotify
 
 
 class Music(commands.Cog):
@@ -37,8 +38,8 @@ class Music(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.hybrid_command(name='play', description='Plays a song. If a song is already playing, it will be added to the queue.', with_app_command=True)
-    async def play_(self, ctx, *, search: str):
+    @commands.hybrid_command(name='play', description='Plays a song. If a song is already playing, it will be added to the queue.')
+    async def play_(self, ctx, search: str):
         embed = discord.Embed(color=0x2F3136)
         queue = discord.Embed(color=0x2F3136)
 
@@ -48,12 +49,27 @@ class Music(commands.Cog):
             vc: wavelink.Player = ctx.voice_client
 
         vc.autoplay = True
-        track = await wavelink.YouTubeTrack.search(search, return_first=True)
-        embed.description = f'playing: `{track.title}` requested by {ctx.author.mention}'
-        queue.description = f'queued: `{track.title}` requested by {ctx.author.mention}'
+
+        if spotify.decode_url(search):
+        
+            if search.startswith('https://open.spotify.com/playlist'):
+                async for tracks in spotify.SpotifyTrack.iterator(query=search, type=spotify.SpotifySearchType.playlist):
+                    track = vc.queue.put(tracks)
+                    names = ', '.join(tracks.artists)
+                    embed.description = f'playing: `{tracks.name}` by {names} requested by {ctx.author.mention}'
+                    queue.description = f'queued: `{tracks.name}` requested by {ctx.author.mention}'
+            elif search.startswith('https://open.spotify.com/track'):
+                track = await spotify.SpotifyTrack.search(search)
+                names = ', '.join(track.artists)
+                embed.description = f'playing: `{track.name}` by {names} requested by {ctx.author.mention}'
+                queue.description = f'queued: `{track.name}` by {names} requested by {ctx.author.mention}'
+        else:
+            track = await wavelink.YouTubeTrack.search(search, return_first=True)
+            embed.description = f'playing: `{track.title}` by {track.author} requested by {ctx.author.mention}'
+            queue.description = f'queued: `{track.title}` by {track.author} requested by {ctx.author.mention}'
 
         if not vc.is_playing():
-            await vc.play(track, populate=True)
+            await vc.play(vc.queue.get())
             await ctx.send(embed=embed)
         elif vc.is_playing():
             await vc.queue.put_wait(track)
@@ -100,7 +116,11 @@ class Music(commands.Cog):
         else:
             num = 1
             for track in vc.queue:
-                embed.add_field(name=f'{num}. {track.title}', value=f'by `{track.author}`', inline=False)
+                try:
+                    embed.add_field(name=f'{num}. {track.title}', value=f'by `{track.author}`', inline=False)
+                except:
+                    names = ', '.join(track.artists)
+                    embed.add_field(name=f'{num}. {track.name}', value=f'by `{names}`', inline=False)
                 num += 1
 
         await ctx.send(embed=embed)
