@@ -1,20 +1,34 @@
 from discord.ext import commands
 from views.done import DoneView
+
 class Portal(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
     @commands.hybrid_command(name='mass', description='Starts the massing process.')
     async def mass(self, ctx):
-        await ctx.send('1. send ad in cb & non cb\n2. 2 ads per ticket; 1 ticket per user\n3. post from b2t\n4. send ss of post last category\n\ntype `-start` once you have read this and are ready to begin massing.')
+        await ctx.send('1. send ad in cb & non cb\n2. 2 ads per ticket; 1 ticket per user\n3. post from b2t\n4. send ss of post last category\n\ntype `-start` once you have read this and is ready to begin massing.')
     
     @commands.hybrid_command(name='start', description='Executes the start checkpoint.')
     async def start(self, ctx):
-        await ctx.send('1. make sure you have read the embed properly or your ticket will be __**closed**__!\n2. plz list any servers you may have skipped and be sure to read the reqs of each channel\n3. if there are no reqs listed in one of the channels it means the server has no reqs.\n\nyou can start now. type `-done` once done')
+        await ctx.send('1. make sure you have read the embed properly or your ticket will be __**closed**__!\n2. plz list any servers you may have skipped in a __**single**__ message as the bot will auto detect the skips and be sure to read the reqs of each channel.\n3. if there are no reqs listed in one of the channels it means the server has no reqs.\n\nyou can start now, type `-done` once done')
 
     @commands.hybrid_command(name='done', description='Executes the done checkpoint.')
     async def done(self, ctx):
         await ctx.send(f'{ctx.author.mention} select a post method', view=DoneView())
+    
+
+    @commands.Cog.listener('on_message')
+    async def skip_listner(self, message):
+        listings = ['skip', 'skips', 'skipped', 'skip', 'skippin', 'skipping', 'skippings', 'skippins']
+        if message.author.id == self.bot.user.id:
+            return
+        if any([word in message.content.lower() for word in listings]):
+            if len(message.content) < 10:
+                return
+            else:
+                await message.pin()
+
 
 async def setup(bot):
     await bot.add_cog(Portal(bot))
