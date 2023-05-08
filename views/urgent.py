@@ -6,17 +6,19 @@ class Urgent(discord.ui.Select):
 
     
         options = [
-            discord.SelectOption(label='non-urgent', description='not urgent'),
-            discord.SelectOption(label='semi-urgent', description='kind of urgent'),
-            discord.SelectOption(label='urgent', description='very urgent'),
+            discord.SelectOption(label='nurg', description='not urgent'),
+            discord.SelectOption(label='surg', description='kind of urgent'),
+            discord.SelectOption(label='urg', description='very urgent'),
         ]
 
         super().__init__(placeholder='choose a option', min_values=1, max_values=1, options=options)
 
     async def callback(self, interaction: discord.Interaction):
         await interaction.message.delete()
+        channel_name = interaction.channel.name
         pin = await interaction.channel.send(f'you have selected **{self.values[0]}**')
         await pin.pin()
+        await interaction.channel.edit(name=f'{channel_name}-{self.values[0]}')
 
 
 class UrgentView(discord.ui.View):

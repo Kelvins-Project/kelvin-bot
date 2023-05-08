@@ -18,8 +18,9 @@ class Done(discord.ui.Select):
     async def callback(self, interaction: discord.Interaction):
         await interaction.message.delete()
         pin = await interaction.channel.send(f'you have selected **{self.values[0]}**')
-        await interaction.channel.send(f'{interaction.user.mention} select a urgentness',view=UrgentView())
+        await interaction.channel.send(f'{interaction.user.mention} select a urgentness', view=UrgentView())
         await pin.pin()
+        await interaction.channel.edit(name=self.values[0])
         
 
 
