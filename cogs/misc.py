@@ -11,9 +11,6 @@ class Misc(commands.Cog):
         embed.set_footer(text=f'ping {round(self.bot.latency * 1000)}ms')
         await ctx.send(embed=embed)
 
-
-            
-
         
 async def setup(bot):
     await bot.add_cog(Misc(bot))

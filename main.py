@@ -6,7 +6,7 @@ import aiohttp
 import wavelink
 from wavelink.ext import spotify
 
-prefix = ['kelvin ', 'kel ', 'kelkel ', '<@944623479523774464> ', '<@944623479523774464>']
+prefix = ['-']
 
 os.environ['JISHAKU_NO_UNDERSCORE'] = 'True'
 os.environ['JISHAKU_NO_DM_TRACEBACK'] = 'True'
@@ -17,7 +17,7 @@ class Bot(commands.Bot):
         super().__init__(command_prefix = prefix, 
                         case_insensitive = True, 
                         trip_after_prefix=True, 
-                        activity = discord.Activity(name='the alive', type=discord.ActivityType.watching), 
+                        activity = discord.Activity(name='tickets', type=discord.ActivityType.watching), 
                         status = discord.Status.online, 
                         intents=discord.Intents.all(), 
                         owner_ids = [675104167345258506])
