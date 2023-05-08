@@ -3,7 +3,7 @@ from discord.ext import commands
 import asyncio
 import wavelink
 from wavelink.ext import spotify
-
+import random
 
 class Music(commands.Cog):
 
@@ -103,6 +103,16 @@ class Music(commands.Cog):
             pass
         await vc.stop()
         await ctx.send(embed=embed)
+
+    @commands.hybrid_command(name='shuffle', description='Shuffles the queue.')
+    async def shuffle_(self, ctx):
+        vc: wavelink.Player = ctx.voice_client
+        embed = discord.Embed(description=f'shuffled the queue.', color=0x2F3136)
+        if not vc or not vc.is_playing():
+            pass
+        random.shuffle(vc.queue._queue)
+        await ctx.send(embed=embed)
+    
 
     @commands.hybrid_command(name='queue', description='Shows the current queue.')
     async def queue_(self, ctx):
