@@ -23,9 +23,6 @@ class Owner(commands.Cog):
 
         for page in paginator.pages:
             await ctx.send(page, delete_after=5)
-    @commands.command()
-    async def cd(self, ctx, *, ad):
-        await ctx.send(f'ad on cd\n\n{ad}')
 
 async def setup(bot):
     await bot.add_cog(Owner(bot))

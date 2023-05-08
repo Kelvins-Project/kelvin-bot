@@ -1,13 +1,20 @@
+import discord
 from discord.ext import commands
 from views.done import DoneView
+
+def cog_check(ctx):
+    guild = ctx.bot.get_guild(1098191144686473216)
+    if ctx.guild.id != guild.id:
+        return False
 
 class Portal(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+
     @commands.hybrid_command(name='mass', description='Starts the massing process.')
     async def mass(self, ctx):
-        await ctx.send('1. send ad in cb & non cb\n2. 2 ads per ticket; 1 ticket per user\n3. post from b2t\n4. send ss of post last category\n\ntype `-start` once you have read this and is ready to begin massing.')
+        await ctx.send('1. send ad in cb & non cb\n2. 2 ads per ticket; 1 ticket per user\n3. post from b2t\n4. send ss of post last category\n5. servers are filtered by themes, u can use `-access <stox|icon/decor|social|other|all>`\n\ntype `-start` once you have read this and is ready to begin massing.')
     
     @commands.hybrid_command(name='start', description='Executes the start checkpoint.')
     async def start(self, ctx):
@@ -17,7 +24,6 @@ class Portal(commands.Cog):
     async def done(self, ctx):
         await ctx.send(f'{ctx.author.mention} select a post method', view=DoneView())
     
-
     @commands.Cog.listener('on_message')
     async def skip_listner(self, message):
         listings = ['skip', 'skips', 'skipped', 'skip', 'skippin', 'skipping', 'skippings', 'skippins']
@@ -29,6 +35,29 @@ class Portal(commands.Cog):
             else:
                 await message.pin()
 
+    @commands.hybrid_command(name='access', description='Gives access to a servers.')
+    async def access(self, ctx, access: str):
+        stox = ctx.guild.get_role(1105116553122435112)
+        icon = ctx.guild.get_role(1105116582730006578)
+        social = ctx.guild.get_role(1105116620445192204)
+        other = ctx.guild.get_role(1105150560795111446)
+        if access.lower() == 'stox':
+            await ctx.send('you have been given access to stox servers')
+            await ctx.author.add_roles(stox)
+        elif access.lower() == 'icon/decor':
+            await ctx.send('you have been given access to icon/decor servers')
+            await ctx.author.add_roles(icon)
+        elif access.lower() == 'social':
+            await ctx.send('you have been given access to social servers')
+            await ctx.author.add_roles(social)
+        elif access.lower() == 'other':
+            await ctx.send('you have been given access to other servers')
+            await ctx.author.add_roles(other)
+        elif access.lower() == 'all':
+            await ctx.send('you have been given access to all servers')
+            await ctx.author.add_roles(stox, icon, social, other)
+        else:
+            await ctx.send('invalid access type')
 
 async def setup(bot):
     await bot.add_cog(Portal(bot))
