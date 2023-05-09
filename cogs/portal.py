@@ -14,7 +14,9 @@ class Portal(commands.Cog):
 
     @commands.hybrid_command(name='mass', description='Starts the massing process.')
     async def mass(self, ctx):
-        await ctx.send('1. send ad in cb & non cb\n2. 2 ads per ticket; 1 ticket per user\n3. post from b2t\n4. send ss of post last category\n5. servers are filtered by themes, u can use `-access <stox|icon/decor|social|other|all>`\n\ntype `-start` once you have read this and is ready to begin massing.')
+        embed = discord.Embed(description='1. make sure you have read the embed properly or your ticket will be __**closed**__!\n\n2. send ad in cb and non cb\n\n3. plz list any servers you may have skipped in a __**single**__ message as the bot will auto detect the skips and be sure to read the reqs of each channel.\n\n4. if there are no reqs listed in one of the channels it means the server has no reqs\n\n5. servers are filtered by themes, you can use `-access <stox|icon/decor|social|other|all>`\n\nyou can start now, type `-done` once done', color=0x2F3136)
+        embed.set_image(url='https://cdn.korino.dev/r/HsvKWy.png?compress=false')
+        await ctx.send(embed=embed)
     
     @commands.hybrid_command(name='start', description='Executes the start checkpoint.')
     async def start(self, ctx):
