@@ -28,7 +28,7 @@ class Owner(commands.Cog):
 
     @commands.command()
     async def load(self, ctx):
-        embed = discord.Embed(description='◡̈ ‎ ‎__**open a ticket to**__:\n\n1. hire me free or paid\n2.mass with me\n\n__**to mass**:__\ntype `-mass` in the ticket\n2. 2 ads pr ticket; 1 ticket per user\n\n__follow the instructions in the ticket after__', color=0x2F3136)
+        embed = discord.Embed(description='◡̈ ‎ ‎__**open a ticket to**__:\n\n1. hire me free or paid\n2.mass with me\n\n__**to mass**:__\n1. type `-mass` in the ticket\n2. 2 ads pr ticket; 1 ticket per user\n\n__follow the instructions in the ticket after__', color=0x2F3136)
         await ctx.send(embed=embed, view=CreateView())
 
 async def setup(bot):
