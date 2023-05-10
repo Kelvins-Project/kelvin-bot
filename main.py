@@ -3,6 +3,8 @@ from discord.ext import commands
 import os
 from config import bot_token, lava_token, client_id, client_secret
 import aiohttp
+from views.create import CreateView
+from views.close import CloseView
 import wavelink
 from wavelink.ext import spotify
 
@@ -24,6 +26,8 @@ class Bot(commands.Bot):
 
     async def setup_hook(self):
         self.session = aiohttp.ClientSession()
+        self.add_view(CreateView())
+        self.add_view(CloseView())
         for filename in os.listdir('./cogs'):
             if filename.endswith('.py'):
                 await self.load_extension(f'cogs.{filename[:-3]}')

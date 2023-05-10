@@ -3,6 +3,7 @@ from discord.ext import commands
 
 class Urgent(discord.ui.Select):
     def __init__(self):
+        self.timeout = 6000
 
     
         options = [

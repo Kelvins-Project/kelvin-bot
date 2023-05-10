@@ -14,7 +14,7 @@ class Portal(commands.Cog):
 
     @commands.hybrid_command(name='mass', description='Starts the massing process.')
     async def mass(self, ctx):
-        embed = discord.Embed(description='1. make sure you have read the embed properly or your ticket will be __**closed**__!\n\n2. send ad in cb and non cb\n\n3. plz list any servers you may have skipped in a __**single**__ message as the bot will auto detect the skips and be sure to read the reqs of each channel.\n\n4. if there are no reqs listed in one of the channels it means the server has no reqs\n\n5. servers are filtered by themes, you can use `-access <stox|icon/decor|social|other|all>`\n\nyou can start now, type `-done` once done', color=0x2F3136)
+        embed = discord.Embed(description='1. make sure you have read the embed properly or your ticket will be __**closed**__!\n\n2. send ad in cb and non cb\n\n3. plz list any servers you may have skipped in a __**single**__ message as the bot will auto detect the skips and be sure to read the reqs of each channel.\n\n4. if there are no reqs listed in one of the channels it means the server has no reqs\n\n5. servers are filtered by themes, you can use `-access <stox|icon/decor|social|mnml|other|all>`\n\nyou can start now, type `-done` once done', color=0x2F3136)
         embed.set_image(url='https://cdn.korino.dev/r/HsvKWy.png?compress=false')
         await ctx.send(embed=embed)
     
@@ -42,6 +42,7 @@ class Portal(commands.Cog):
         stox = ctx.guild.get_role(1105116553122435112)
         icon = ctx.guild.get_role(1105116582730006578)
         social = ctx.guild.get_role(1105116620445192204)
+        mnml = ctx.guild.get_role(1105463864012845166)
         other = ctx.guild.get_role(1105150560795111446)
         if access.lower() == 'stox':
             await ctx.send('you have been given access to stox servers')
@@ -52,12 +53,15 @@ class Portal(commands.Cog):
         elif access.lower() == 'social':
             await ctx.send('you have been given access to social servers')
             await ctx.author.add_roles(social)
+        elif access.lower() == 'mnml':
+            await ctx.send('you have been given access to mnml servers')
+            await ctx.author.add_roles(mnml)
         elif access.lower() == 'other':
             await ctx.send('you have been given access to other servers')
             await ctx.author.add_roles(other)
         elif access.lower() == 'all':
             await ctx.send('you have been given access to all servers')
-            await ctx.author.add_roles(stox, icon, social, other)
+            await ctx.author.add_roles(stox, icon, social, mnml, other)
         else:
             await ctx.send('invalid access type')
 
