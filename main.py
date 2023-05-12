@@ -1,12 +1,13 @@
 import discord 
 from discord.ext import commands
 import os
-from config import bot_token, lava_token, client_id, client_secret
+from config import bot_token, lava_token, client_id, client_secret, db_link
 import aiohttp
 from views.create import CreateView
 from views.close import CloseView
 import wavelink
 from wavelink.ext import spotify
+import asyncpg
 
 prefix = ['-']
 
@@ -25,9 +26,19 @@ class Bot(commands.Bot):
                         owner_ids = [675104167345258506])
 
     async def setup_hook(self):
-        self.session = aiohttp.ClientSession()
         self.add_view(CreateView())
         self.add_view(CloseView())
+        self.session = aiohttp.ClientSession()
+        self.db = await asyncpg.create_pool(db_link)
+        await self.db.execute('''
+
+            CREATE TABLE IF NOT EXISTS ticket_info (
+                channel_id BIGINT NOT NULL,
+                ticket_id BIGINT NOT NULL,
+                ticket_timestamp DATE NOT NULL
+            );        
+        
+        ''')
         for filename in os.listdir('./cogs'):
             if filename.endswith('.py'):
                 await self.load_extension(f'cogs.{filename[:-3]}')
