@@ -31,6 +31,8 @@ class Portal(commands.Cog):
         listings = ['skip', 'skips', 'skipped', 'skip', 'skippin', 'skipping', 'skippings', 'skippins']
         if message.author.id == self.bot.user.id:
             return
+        if message.guild.id != 1098191144686473216:
+            return
         if any([word in message.content.lower() for word in listings]):
             if len(message.content) < 10:
                 return
