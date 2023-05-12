@@ -69,8 +69,12 @@ class Music(commands.Cog):
             queue.description = f'queued: `{track.title}` by {track.author} requested by {ctx.author.mention}'
 
         if not vc.is_playing():
-            await vc.play(vc.queue.get())
-            await ctx.send(embed=embed)
+            if vc.queue.is_empty:
+                await vc.play(track)
+                await ctx.send(embed=embed)
+            else:
+                await vc.play(vc.queue.get())
+                await ctx.send(embed=embed)
         elif vc.is_playing():
             await vc.queue.put_wait(track)
             await ctx.send(embed=queue)
@@ -135,8 +139,8 @@ class Music(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.hybrid_command(name='leave', description='Stops the currently playing song and destroys the player.')
-    async def leave_(self, ctx):
+    @commands.hybrid_command(name='stop', description='Stops the currently playing song and destroys the player.')
+    async def stop_(self, ctx):
         vc: wavelink.Player = ctx.voice_client
         embed = discord.Embed(description=f'disconnected from: {ctx.author.voice.channel.mention}', color=0x2F3136)
         if not vc or not vc.is_playing():
