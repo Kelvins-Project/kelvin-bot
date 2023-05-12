@@ -117,7 +117,6 @@ class Music(commands.Cog):
         random.shuffle(vc.queue._queue)
         await ctx.send(embed=embed)
     
-
     @commands.hybrid_command(name='queue', description='Shows the current queue.')
     async def queue_(self, ctx):
         vc: wavelink.Player = ctx.voice_client
@@ -137,6 +136,16 @@ class Music(commands.Cog):
                     embed.add_field(name=f'{num}. {track.name}', value=f'by `{names}`', inline=False)
                 num += 1
 
+        await ctx.send(embed=embed)
+
+    @commands.hybrid_command(name='volume', description='Changes the volume of the player.')
+    async def volume_(self, ctx, volume: int):
+        vc: wavelink.Player = ctx.voice_client
+        embed = discord.Embed(description=f'volume set to {volume}', color=0x2F3136)
+        if not vc or not vc.is_playing():
+            pass
+
+        await vc.set_volume(volume)
         await ctx.send(embed=embed)
 
     @commands.hybrid_command(name='stop', description='Stops the currently playing song and destroys the player.')
