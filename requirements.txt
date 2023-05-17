@@ -4,3 +4,4 @@ asyncpg
 tomli
 PyNaCl
 wavelink
+chat-exporter

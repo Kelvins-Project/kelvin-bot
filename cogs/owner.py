@@ -2,6 +2,8 @@ import discord
 from discord.ext import commands
 from views.create import CreateView
 import traceback
+from views.embed_builder import EmbedMakerView
+from discord import app_commands
 
 class Owner(commands.Cog):
     def __init__(self, bot):
@@ -30,6 +32,12 @@ class Owner(commands.Cog):
     async def load(self, ctx):
         embed = discord.Embed(description='◡̈ ‎ ‎__**open a ticket to**__:\n\n1. hire me free or paid\n2. mass with me\n\n__**to mass**:__\n1. type `-mass` in the ticket\n2. 2 ads pr ticket; 1 ticket per user\n\n__follow the instructions in the ticket after__', color=0x2F3136)
         await ctx.send(embed=embed, view=CreateView())
+
+    @app_commands.command(description='Create a embeded auto responder.')
+    async def create_embed(self, interaction):
+        embed = discord.Embed(title = 'Embed Maker')
+        view = EmbedMakerView(interaction, embed, self.bot)
+        await interaction.response.send_message(embed = embed, view = view)  
 
 async def setup(bot):
     await bot.add_cog(Owner(bot))

@@ -15,11 +15,24 @@ os.environ['JISHAKU_NO_UNDERSCORE'] = 'True'
 os.environ['JISHAKU_NO_DM_TRACEBACK'] = 'True'
 os.environ['JISHAKU_HIDE'] = 'True'
 
+class MyHelp(commands.HelpCommand):
+    async def send_bot_help(self, mapping):
+        embed = discord.Embed(title="Help", color=0x2F3136)
+        for cog, commands in mapping.items():
+           command_signatures = [self.get_command_signature(c) for c in commands]
+           if command_signatures:
+                cog_name = getattr(cog, "qualified_name", "No Category")
+                embed.add_field(name=cog_name, value="\n".join(command_signatures), inline=False)
+
+        channel = self.get_destination()
+        await channel.send(embed=embed)
+
 class Bot(commands.Bot):
     def __init__(self):
         super().__init__(command_prefix = prefix, 
                         case_insensitive = True, 
                         trip_after_prefix=True, 
+                        help_command=MyHelp(),
                         activity = discord.Activity(name='tickets', type=discord.ActivityType.watching), 
                         status = discord.Status.online, 
                         intents=discord.Intents.all(), 
@@ -33,9 +46,10 @@ class Bot(commands.Bot):
         await self.db.execute('''
 
             CREATE TABLE IF NOT EXISTS ticket_info (
-                channel_id BIGINT NOT NULL,
-                ticket_id BIGINT NOT NULL,
-                ticket_timestamp DATE NOT NULL
+                welcome_id BIGINT,
+                transcript_id BIGINT,
+                vanity_id BIGINT, 
+                log_id BIGINT
             );        
         
         ''')
