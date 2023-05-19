@@ -21,7 +21,7 @@ class Reason(discord.ui.Modal, title='reason'):
         await interaction.response.send_message('closing ticket...')
         await user.send(f'your ticket has been closed for the following reason: {self.reason.value}')
         
-        message = await logs.send(file=transcript_file, ehphemeral=True)
+        message = await logs.send(file=transcript_file)
         embed = discord.Embed(description=f'{interaction.user.mention} has closed the [ticket](https://mahto.id/chat-exporter?url={message.attachments[0].url})', color=0x2F3136)
         embed.add_field(name='by', value=user.mention)
         embed.add_field(name='channel name', value=interaction.channel.name)

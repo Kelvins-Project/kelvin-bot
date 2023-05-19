@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from views.create import CreateView
 import traceback
-from views.embed_builder import EmbedMakerView
+from views.embed_builder import BaseView
 from discord import app_commands
 
 class Owner(commands.Cog):
@@ -33,11 +33,15 @@ class Owner(commands.Cog):
         embed = discord.Embed(description='◡̈ ‎ ‎__**open a ticket to**__:\n\n1. hire me free or paid\n2. mass with me\n\n__**to mass**:__\n1. type `-mass` in the ticket\n2. 2 ads pr ticket; 1 ticket per user\n\n__follow the instructions in the ticket after__', color=0x2F3136)
         await ctx.send(embed=embed, view=CreateView())
 
-    @app_commands.command(description='Create a embeded auto responder.')
-    async def create_embed(self, interaction):
-        embed = discord.Embed(title = 'Embed Maker')
-        view = EmbedMakerView(interaction, embed, self.bot)
-        await interaction.response.send_message(embed = embed, view = view)  
+    @app_commands.command()
+    async def messagemaker(self, interaction): 
+        """Interactively makes a message from scratch"""
+
+        view = BaseView(interaction, self.session)
+        await interaction.response.send_message(view.content, view = view)
+        message = await interaction.original_response()
+        view.set_message(message)
+        await view.wait()
 
 async def setup(bot):
     await bot.add_cog(Owner(bot))

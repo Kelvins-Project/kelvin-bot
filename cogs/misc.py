@@ -26,6 +26,5 @@ class Misc(commands.Cog):
         await ctx.send(embed=embed)
 
 
-        
 async def setup(bot):
     await bot.add_cog(Misc(bot))
