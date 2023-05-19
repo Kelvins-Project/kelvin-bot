@@ -33,11 +33,10 @@ class Owner(commands.Cog):
         embed = discord.Embed(description='◡̈ ‎ ‎__**open a ticket to**__:\n\n1. hire me free or paid\n2. mass with me\n\n__**to mass**:__\n1. type `-mass` in the ticket\n2. 2 ads pr ticket; 1 ticket per user\n\n__follow the instructions in the ticket after__', color=0x2F3136)
         await ctx.send(embed=embed, view=CreateView())
 
-    @app_commands.command()
+    @app_commands.command(name='embed', description='Make an embed')
     async def messagemaker(self, interaction): 
-        """Interactively makes a message from scratch"""
 
-        view = BaseView(interaction, self.session)
+        view = BaseView(interaction, self.bot.session)
         await interaction.response.send_message(view.content, view = view)
         message = await interaction.original_response()
         view.set_message(message)
