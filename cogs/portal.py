@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from views.done import DoneView
+import re
 
 def cog_check(ctx):
     guild = ctx.bot.get_guild(1098191144686473216)
@@ -31,6 +32,10 @@ class Portal(commands.Cog):
         listings = ['skip', 'skips', 'skipped', 'skip', 'skippin', 'skipping', 'skippings', 'skippins']
         if message.author.id == self.bot.user.id:
             return
+        if message.author.bot:
+            return
+        if message.channel.topic != str(message.author.id):
+            return
         if message.guild.id != 1098191144686473216:
             return
         if any([word in message.content.lower() for word in listings]):
@@ -38,6 +43,57 @@ class Portal(commands.Cog):
                 return
             else:
                 await message.pin()
+
+    @commands.Cog.listener('on_message_edit')
+    async def skip_listner_edit(self, before, after):
+        listings = ['skip', 'skips', 'skipped', 'skip', 'skippin', 'skipping', 'skippings', 'skippins']
+        if before.author.id == self.bot.user.id:
+            return
+        if before.author.bot:
+            return
+        if before.channel.topic != str(before.author.id):
+            return
+        if before.guild.id != 1098191144686473216:
+            return
+        if any([word in after.content.lower() for word in listings]):
+            if len(after.content) < 10:
+                return
+            else:
+                await after.pin()
+
+    @commands.Cog.listener('on_message')
+    async def ad_listener(self, message):
+        if message.author.id == self.bot.user.id:
+            return
+        if message.author.bot:
+            return
+        if message.channel.topic != str(message.author.id):
+            return
+        if message.guild.id != 1098191144686473216:
+            return
+        if not message.content.startswith('```') and not message.content.endswith('```'):
+            return
+        match = re.findall(r'(?:https?://)?discord(?:app)?\.(?:com/invite|gg)/[a-zA-Z0-9]+/?', message.content)
+        if match:
+            await message.pin()
+
+    @commands.Cog.listener('on_message_edit')
+    async def ad_listener_edit(self, before, after):
+        if before.author.id == self.bot.user.id:
+            return
+        if before.author.bot:
+            return
+        if before.channel.topic != str(before.author.id):
+            return
+        if before.guild.id != 1098191144686473216:
+            return
+        if not after.content.startswith('```') and not after.content.endswith('```'):
+            return
+        match = re.findall(r'(?:https?://)?discord(?:app)?\.(?:com/invite|gg)/[a-zA-Z0-9]+/?', after.content)
+        if match:
+            await after.pin()
+
+        
 
     @commands.hybrid_command(name='access', description='Gives access to a servers.')
     async def access(self, ctx, access: str):
