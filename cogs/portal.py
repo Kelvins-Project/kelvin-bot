@@ -123,6 +123,7 @@ class Portal(commands.Cog):
         else:
             await ctx.send('invalid access type')
 
+
 async def setup(bot):
     await bot.add_cog(Portal(bot))
     

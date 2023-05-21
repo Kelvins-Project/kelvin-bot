@@ -4,6 +4,8 @@ from views.create import CreateView
 import traceback
 from views.embed_builder import BaseView
 from discord import app_commands
+import re
+import asyncio
 
 class Owner(commands.Cog):
     def __init__(self, bot):
@@ -41,6 +43,34 @@ class Owner(commands.Cog):
         message = await interaction.original_response()
         view.set_message(message)
         await view.wait()
+
+    @commands.hybrid_command(name='invcheck', description='Checks if a invite is valid.')
+    async def invcheck(self, ctx):
+
+        category_id = [1098196661148340284, 1105461295060353025, 1105462128107859978, 1105462240523600004, 1105462517586739240, 1105463989099565106, 1098198286772469840]
+        valid = commands.Paginator(prefix='', suffix='')
+        invalid = commands.Paginator(prefix='', suffix='')
+
+        for id in category_id:
+            category = self.bot.get_channel(id)
+            for channel in category.channels:
+                print(channel.name)
+                async for message in channel.history(limit=1, oldest_first=True):
+                    match = re.findall(r'(?:https?://)?discord(?:app)?\.(?:com/invite|gg)/[a-zA-Z0-9]+/?', message.content)
+                    if match:
+                        print(match)
+                        try:
+                            await asyncio.sleep(5)
+                            await self.bot.fetch_invite(match[0])
+                            valid.add_line(f'{channel.mention} is valid')
+                        except discord.NotFound:
+                            invalid.add_line(f'{channel.mention} is invalid')
+                    else:
+                        pass
+        for page in valid.pages:
+            await ctx.send(page)
+        for page in invalid.pages:
+            await ctx.send(page)
 
 async def setup(bot):
     await bot.add_cog(Owner(bot))
