@@ -64,7 +64,7 @@ class Owner(commands.Cog):
                             await self.bot.fetch_invite(match[0])
                             valid.add_line(f'{channel.mention} is valid')
                         except discord.NotFound:
-                            invalid.add_line(f'{channel.mention} is invalid')
+                            invalid.add_line(f'{channel.mention} is **invalid**')
                     else:
                         pass
         for page in valid.pages:

@@ -97,31 +97,20 @@ class Portal(commands.Cog):
 
     @commands.hybrid_command(name='access', description='Gives access to a servers.')
     async def access(self, ctx, access: str):
-        stox = ctx.guild.get_role(1105116553122435112)
-        icon = ctx.guild.get_role(1105116582730006578)
-        social = ctx.guild.get_role(1105116620445192204)
-        mnml = ctx.guild.get_role(1105463864012845166)
-        other = ctx.guild.get_role(1105150560795111446)
-        if access.lower() == 'stox':
-            await ctx.send('you have been given access to stox servers')
-            await ctx.author.add_roles(stox)
-        elif access.lower() == 'icon/decor':
-            await ctx.send('you have been given access to icon/decor servers')
-            await ctx.author.add_roles(icon)
-        elif access.lower() == 'social':
-            await ctx.send('you have been given access to social servers')
-            await ctx.author.add_roles(social)
-        elif access.lower() == 'mnml':
-            await ctx.send('you have been given access to mnml servers')
-            await ctx.author.add_roles(mnml)
-        elif access.lower() == 'other':
-            await ctx.send('you have been given access to other servers')
-            await ctx.author.add_roles(other)
-        elif access.lower() == 'all':
+
+        dir = {'stox': 1105116553122435112, 'icon': 1105116582730006578, 'social': 1105116620445192204, 'mnml': 1105463864012845166, 'other': 1105150560795111446}
+        if access.lower() == 'all':
+            for ids in dir.values():
+                role = ctx.guild.get_role(ids)
+                await ctx.author.add_roles(role)
             await ctx.send('you have been given access to all servers')
-            await ctx.author.add_roles(stox, icon, social, mnml, other)
-        else:
+        elif access not in dir:
             await ctx.send('invalid access type')
+        else:
+            role = ctx.guild.get_role(dir[access.lower()])
+            await ctx.author.add_roles(role)
+            await ctx.send(f'you have been given access to {access.lower()} servers')
+        
 
 
 async def setup(bot):
