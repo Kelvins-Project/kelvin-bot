@@ -3,15 +3,17 @@ from discord.ext import commands
 from views.done import DoneView
 import re
 
-def cog_check(ctx):
-    guild = ctx.bot.get_guild(1098191144686473216)
-    if ctx.guild.id != guild.id:
-        return False
+async def setup(bot):
+    await bot.add_cog(Portal(bot))
 
 class Portal(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    def cog_check(ctx):
+        guild = ctx.bot.get_guild(1098191144686473216)
+        if ctx.guild.id != guild.id:
+            return False
 
     @commands.hybrid_command(name='mass', description='Starts the massing process.')
     async def mass(self, ctx):
@@ -111,8 +113,3 @@ class Portal(commands.Cog):
             await ctx.author.add_roles(role)
             await ctx.send(f'you have been given access to {access.lower()} servers')
         
-
-
-async def setup(bot):
-    await bot.add_cog(Portal(bot))
-    

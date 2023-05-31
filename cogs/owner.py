@@ -7,6 +7,9 @@ from discord import app_commands
 import re
 import asyncio
 
+async def setup(bot):
+    await bot.add_cog(Owner(bot))
+      
 class Owner(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -72,6 +75,4 @@ class Owner(commands.Cog):
         for page in invalid.pages:
             await ctx.send(page)
 
-async def setup(bot):
-    await bot.add_cog(Owner(bot))
     

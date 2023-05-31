@@ -45,11 +45,9 @@ class Bot(commands.Bot):
         self.db = await asyncpg.create_pool(db_link)
         await self.db.execute('''
 
-            CREATE TABLE IF NOT EXISTS ticket_info (
-                welcome_id BIGINT,
-                transcript_id BIGINT,
-                vanity_id BIGINT, 
-                log_id BIGINT
+            CREATE TABLE IF NOT EXISTS economy (
+                user_id BIGINT NOT NULL PRIMARY KEY,
+                balance BIGINT NOT NULL
             );        
         
         ''')

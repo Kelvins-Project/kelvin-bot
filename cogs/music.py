@@ -5,6 +5,9 @@ import wavelink
 from wavelink.ext import spotify
 import random
 
+async def setup(bot):
+    await bot.add_cog(Music(bot))
+    
 class Music(commands.Cog):
 
     __slots__ = ('bot', 'players')
@@ -158,6 +161,3 @@ class Music(commands.Cog):
         await vc.disconnect()
         await ctx.send(embed=embed)
 
-
-async def setup(bot):
-    await bot.add_cog(Music(bot))
