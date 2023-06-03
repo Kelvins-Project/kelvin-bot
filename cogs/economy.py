@@ -15,6 +15,8 @@ class Economy(commands.Cog):
         query = await self.bot.db.fetch('SELECT user_id FROM economy WHERE user_id = $1', ctx.author.id)
         if bool(query) == False:
             await self.bot.db.execute('INSERT INTO economy (user_id, balance) VALUES ($1, $2)', ctx.author.id, 0)
+            await self.bot.db.execute('UPDATE economy SET balance = balance + 150 WHERE user_id = $1', ctx.author.id)
+            await ctx.send(embed=embed)
         else:
             await self.bot.db.execute('UPDATE economy SET balance = balance + 150 WHERE user_id = $1', ctx.author.id)
             await ctx.send(embed=embed)

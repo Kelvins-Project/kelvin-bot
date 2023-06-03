@@ -47,7 +47,7 @@ class Bot(commands.Bot):
 
             CREATE TABLE IF NOT EXISTS economy (
                 user_id BIGINT NOT NULL PRIMARY KEY,
-                balance BIGINT NOT NULL
+                balance BIGINT NOT NULL 
             );        
         
         ''')
