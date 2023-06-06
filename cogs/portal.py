@@ -11,8 +11,8 @@ class Portal(commands.Cog):
         self.bot = bot
 
     async def cog_check(self, ctx):
-        if ctx.guild.id != 1098191144686473216:
-            return False
+        if ctx.guild.id == 1098191144686473216:
+            return True
 
     @commands.hybrid_command(name='mass', description='Starts the massing process.')
     async def mass(self, ctx):
