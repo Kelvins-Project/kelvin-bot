@@ -10,8 +10,8 @@ class Portal(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    def cog_check(ctx):
-        guild = ctx.bot.get_guild(1098191144686473216)
+    def cog_check(self, ctx):
+        guild = self.bot.get_guild(1098191144686473216)
         if ctx.guild.id != guild.id:
             return False
 
