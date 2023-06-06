@@ -10,7 +10,7 @@ class Portal(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    def cog_check(self, ctx):
+    async def cog_check(self, ctx):
         if ctx.guild.id != 1098191144686473216:
             return False
 
