@@ -17,7 +17,7 @@ class CloseView(discord.ui.View):
             io.BytesIO(transcript.encode()),
             filename=f"transcript.html",
         )
-
+        await interaction.response.defer()
         message = await logs.send(file=transcript_file)
         embed = discord.Embed(description=f'{interaction.user.mention} has closed the [ticket](https://mahto.id/chat-exporter?url={message.attachments[0].url})', color=0x2F3136)
         embed.add_field(name='by', value=user.mention)
