@@ -18,6 +18,7 @@ class Reason(discord.ui.Modal, title='reason'):
             io.BytesIO(transcript.encode()),
             filename=f"transcript.html",
         )
+        await interaction.response.defer()
         await interaction.response.send_message('closing ticket...')
         await user.send(f'your ticket has been closed for the following reason: {self.reason.value}')
         
