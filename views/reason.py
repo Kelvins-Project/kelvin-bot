@@ -9,16 +9,15 @@ class Reason(discord.ui.Modal, title='reason'):
     )
 
     async def on_submit(self, interaction: discord.Interaction):
-
         id = interaction.channel.topic
         user = interaction.guild.get_member(int(id))
         logs = interaction.guild.get_channel(1101188264557297814)
+        await interaction.response.defer()
         transcript = await chat_exporter.export(interaction.channel)
         transcript_file = discord.File(
             io.BytesIO(transcript.encode()),
             filename=f"transcript.html",
         )
-        await interaction.response.defer()
         await interaction.response.send_message('closing ticket...')
         await user.send(f'your ticket has been closed for the following reason: {self.reason.value}')
         
