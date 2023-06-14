@@ -5,6 +5,7 @@ from config import bot_token, lava_token, client_id, client_secret, db_link
 import aiohttp
 from views.create import CreateView
 from views.close import CloseView
+from views.dm_close import DMCloseView
 import wavelink
 from wavelink.ext import spotify
 import asyncpg
@@ -41,6 +42,7 @@ class Bot(commands.Bot):
     async def setup_hook(self):
         self.add_view(CreateView())
         self.add_view(CloseView())
+        self.add_view(DMCloseView())
         self.session = aiohttp.ClientSession()
         self.db = await asyncpg.create_pool(db_link)
         await self.db.execute('''

@@ -6,7 +6,7 @@ class CreateView(discord.ui.View):
         super().__init__(timeout=None)
 
     @discord.ui.button(label='open', style=discord.ButtonStyle.green, custom_id='persistent_view:confirm')
-    async def grey(self, interaction: discord.Interaction, button: discord.ui.Button):
+    async def create(self, interaction: discord.Interaction, button: discord.ui.Button):
         embed = discord.Embed(description='ticket panel', color=0x2F3136)
         ticket_category = interaction.guild.get_channel(1105961168339738624)
         ticket = await ticket_category.create_text_channel(name=f'{interaction.user.name}-{interaction.user.discriminator}')

@@ -1,14 +1,13 @@
 import discord
-from views.reason import Reason
 import chat_exporter
 import io
 
-class CloseView(discord.ui.View):
+class DMCloseView(discord.ui.View):
     def __init__(self):
         super().__init__(timeout=None)
 
-    @discord.ui.button(label='close', style=discord.ButtonStyle.danger, custom_id='persistent_view:close')
-    async def close(self, interaction: discord.Interaction, button: discord.ui.Button):
+    @discord.ui.button(label='close', style=discord.ButtonStyle.danger, custom_id='persistent_view:dm_close')
+    async def no_dm(self, interaction: discord.Interaction, button: discord.ui.Button):
         id = interaction.channel.topic
         user = interaction.guild.get_member(int(id))
         logs = interaction.guild.get_channel(1101188264557297814)
@@ -31,6 +30,3 @@ class CloseView(discord.ui.View):
         await interaction.channel.delete()
         
 
-    @discord.ui.button(label='close with reason', style=discord.ButtonStyle.danger, custom_id='persistent_view:close_with_reason')
-    async def closer(self, interaction: discord.Interaction, button: discord.ui.Button):
-        await interaction.response.send_modal(Reason())
