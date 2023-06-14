@@ -18,7 +18,7 @@ class Reason(discord.ui.Modal, title='reason'):
             io.BytesIO(transcript.encode()),
             filename=f"transcript.html",
         )
-        await interaction.response.followup.send('closing ticket...')
+        await interaction.followup.send('closing ticket...')
         await user.send(f'your ticket has been closed for the following reason: {self.reason.value}')
         
         message = await logs.send(file=transcript_file)
