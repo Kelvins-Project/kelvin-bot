@@ -1,5 +1,6 @@
 from discord.ext import commands
 import discord
+from discord import app_commands
 
 async def setup(bot):
     await bot.add_cog(Misc(bot))
