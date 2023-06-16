@@ -2,8 +2,6 @@ import discord
 from discord.ext import commands
 from views.create import CreateView
 import traceback
-from views.embed_builder import BaseView
-from discord import app_commands
 import re
 import asyncio
 
@@ -38,16 +36,8 @@ class Owner(commands.Cog):
         embed = discord.Embed(description='◡̈ ‎ ‎__**open a ticket to**__:\n\n1. hire me free or paid\n2. mass with me\n\n__**to mass**:__\n1. type `-mass` in the ticket\n2. 2 ads pr ticket; 1 ticket per user\n\n__follow the instructions in the ticket after__', color=0x2F3136)
         await ctx.send(embed=embed, view=CreateView())
 
-    @app_commands.command(name='embed', description='Make an embed')
-    async def messagemaker(self, interaction): 
 
-        view = BaseView(interaction, self.bot.session)
-        await interaction.response.send_message(view.content, view = view)
-        message = await interaction.original_response()
-        view.set_message(message)
-        await view.wait()
-
-    @commands.hybrid_command(name='invcheck', description='Checks if a invite is valid.')
+    @commands.command()
     async def invcheck(self, ctx):
 
         category_id = [1098196661148340284, 1105461295060353025, 1105462128107859978, 1105462240523600004, 1105462517586739240, 1105463989099565106, 1098198286772469840]
