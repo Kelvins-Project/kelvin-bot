@@ -99,7 +99,7 @@ class Portal(commands.Cog):
     @commands.hybrid_command(name='access', description='Gives access to a servers.')
     async def access(self, ctx, access: str):
 
-        dir = {'stox': 1105116553122435112, 'icon': 1105116582730006578, 'social': 1105116620445192204, 'mnml': 1105463864012845166, 'other': 1105150560795111446}
+        dir = {'stox': 1105116553122435112, 'icon/decor': 1105116582730006578, 'social': 1105116620445192204, 'mnml': 1105463864012845166, 'other': 1105150560795111446}
         if access.lower() == 'all':
             for ids in dir.values():
                 role = ctx.guild.get_role(ids)
