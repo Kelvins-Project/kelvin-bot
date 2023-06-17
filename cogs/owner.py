@@ -75,6 +75,7 @@ class Owner(commands.Cog):
         embed = discord.Embed(title='`` S `` `` T `` `` A `` `` T `` `` U `` `` S ``', description=f'\n**﹐mass** ``⟢`` **open**\n**﹢ hire** ``⟢`` **open**\n**﹐servercount** ``⟢`` **{total}**', color=0x2F3136)
         message = channel.get_partial_message(1119670765139271781)
         await message.edit(embed=embed)
+        await ctx.message.delete()
 
     @commands.command()
     async def close(self, ctx):
@@ -87,4 +88,5 @@ class Owner(commands.Cog):
         embed = discord.Embed(title='`` S `` `` T `` `` A `` `` T `` `` U `` `` S ``', description=f'\n**﹐mass** ``⟢`` **closed**\n**﹢ hire** ``⟢`` **open**\n**﹐servercount** ``⟢`` **{total}**', color=0x2F3136)
         message = channel.get_partial_message(1119670765139271781)
         await message.edit(embed=embed)
+        await ctx.message.delete()
 
