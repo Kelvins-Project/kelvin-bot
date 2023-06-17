@@ -95,7 +95,6 @@ class Portal(commands.Cog):
             await after.pin()
 
         
-
     @commands.hybrid_command(name='access', description='Gives access to a servers.')
     async def access(self, ctx, access: str):
 

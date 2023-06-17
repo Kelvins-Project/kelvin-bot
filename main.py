@@ -6,8 +6,6 @@ import aiohttp
 from views.create import CreateView
 from views.close import CloseView
 from views.dm_close import DMCloseView
-import wavelink
-from wavelink.ext import spotify
 import asyncpg
 
 prefix = ['-']
@@ -44,22 +42,11 @@ class Bot(commands.Bot):
         self.add_view(CloseView())
         self.add_view(DMCloseView())
         self.session = aiohttp.ClientSession()
-        self.db = await asyncpg.create_pool(db_link)
-        await self.db.execute('''
-
-            CREATE TABLE IF NOT EXISTS economy (
-                user_id BIGINT NOT NULL PRIMARY KEY,
-                balance BIGINT NOT NULL 
-            );        
-        
-        ''')
+        #self.db = await asyncpg.create_pool(db_link)
         for filename in os.listdir('./cogs'):
             if filename.endswith('.py'):
                 await self.load_extension(f'cogs.{filename[:-3]}')
                 print(f"{filename[:-3]} has been loaded!")
-        sc = spotify.SpotifyClient(client_id=client_id, client_secret=client_secret)
-        node: wavelink.Node = wavelink.Node(uri='167.235.231.92:25011', password=lava_token)
-        await wavelink.NodePool.connect(client=self, nodes=[node], spotify=sc)
 
     async def on_ready(self):
         print(self.user.id)
