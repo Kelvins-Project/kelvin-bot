@@ -64,4 +64,27 @@ class Owner(commands.Cog):
         for page in invalid.pages:
             await ctx.send(page)
 
-    
+    @commands.command()
+    async def open(self, ctx):
+        total = 0
+        channel = self.bot.get_channel(1119650620387897355)
+        servers = [1098196661148340284, 1116684077236490290, 1105461295060353025, 1105462128107859978, 1105462240523600004, 1105462517586739240, 1105463989099565106]
+        for x in servers: 
+            category = self.bot.get_channel(x)
+            total = total + len(category.channels)
+        embed = discord.Embed(title='`` S `` `` T `` `` A `` `` T `` `` U `` `` S ``', description=f'\n**﹐mass** ``⟢`` **open**\n**﹢ hire** ``⟢`` **open**\n**﹐servercount** ``⟢`` **{total}**', color=0x2F3136)
+        message = channel.get_partial_message(1119670765139271781)
+        await message.edit(embed=embed)
+
+    @commands.command()
+    async def close(self, ctx):
+        total = 0
+        channel = self.bot.get_channel(1119650620387897355)
+        servers = [1098196661148340284, 1116684077236490290, 1105461295060353025, 1105462128107859978, 1105462240523600004, 1105462517586739240, 1105463989099565106]
+        for x in servers: 
+            category = self.bot.get_channel(x)
+            total = total + len(category.channels)
+        embed = discord.Embed(title='`` S `` `` T `` `` A `` `` T `` `` U `` `` S ``', description=f'\n**﹐mass** ``⟢`` **closed**\n**﹢ hire** ``⟢`` **open**\n**﹐servercount** ``⟢`` **{total}**', color=0x2F3136)
+        message = channel.get_partial_message(1119670765139271781)
+        await message.edit(embed=embed)
+
