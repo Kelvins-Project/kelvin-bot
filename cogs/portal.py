@@ -113,8 +113,6 @@ class Portal(commands.Cog):
         
     @commands.Cog.listener('on_message')
     async def ad_divider(self, message):
-        embed = discord.Embed()
-        embed.set_image(url='https://64.media.tumblr.com/3eeb3876b5e82cde2e742d917965cda9/aeec771f2613a911-b6/s2048x3072/35d14bb1b40d524d14d64d8b81da47597952fb64.pnj')
         if message.author.id == self.bot.user.id:
             return
         if message.author.bot:
@@ -123,4 +121,4 @@ class Portal(commands.Cog):
             return
         match = re.findall(r'(?:https?://)?discord(?:app)?\.(?:com/invite|gg)/[a-zA-Z0-9]+/?', message.content)
         if match:
-            await message.channel.send(embed=embed, color=0x2F3136)
+            await message.channel.send('https://64.media.tumblr.com/3eeb3876b5e82cde2e742d917965cda9/aeec771f2613a911-b6/s2048x3072/35d14bb1b40d524d14d64d8b81da47597952fb64.pnj')
