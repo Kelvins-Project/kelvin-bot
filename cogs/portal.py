@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from views.done import DoneView
+from views.access import AccessView
 import re
 
 async def setup(bot):
@@ -91,7 +92,12 @@ class Portal(commands.Cog):
         match = re.findall(r'(?:https?://)?discord(?:app)?\.(?:com/invite|gg)/[a-zA-Z0-9]+/?', message.content)
         if match:
             await message.channel.send('https://64.media.tumblr.com/3eeb3876b5e82cde2e742d917965cda9/aeec771f2613a911-b6/s2048x3072/35d14bb1b40d524d14d64d8b81da47597952fb64.pnj')
-    
+
+
+    @commands.hybrid_command(name='access', description='Gives you access to portal category.')
+    async def access(self, ctx):
+       await ctx.send(view=AccessView())
+
     @commands.hybrid_command(name='mass', description='Starts the massing process.')
     async def mass(self, ctx):
         embed = discord.Embed(description='1. make sure you have read the embed properly or your ticket will be __**closed**__!\n\n2. send ad in cb and non cb\n\n3. plz list any servers you may have skipped in a __**single**__ message as the bot will auto detect the skips and be sure to read the reqs of each channel.\n\n4. if there are no reqs listed in one of the channels it means the server has no reqs\n\n5. servers are filtered by themes, you can use `-access <stox|icon/decor|social|mnml|other|all>`\n\nyou can start now, type `-done` once done', color=0x2F3136)

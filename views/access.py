@@ -4,7 +4,6 @@ class AccessView(discord.ui.View):
     def __init__(self):
         super().__init__(timeout=None)
 
-
     @discord.ui.button(label='stox', style=discord.ButtonStyle.green, custom_id='persistent_view:stox')
     async def stox(self, interaction: discord.Interaction, button: discord.ui.Button):
         dir = {'stox': 1105116553122435112, 'icon/decor': 1105116582730006578, 'social': 1105116620445192204, 'mnml': 1105463864012845166, 'other': 1105150560795111446}
