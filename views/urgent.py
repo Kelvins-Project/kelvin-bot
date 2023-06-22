@@ -2,8 +2,9 @@ import discord
 from discord.ext import commands
 
 class Urgent(discord.ui.Select):
-    def __init__(self):
+    def __init__(self, sep_option):
         self.timeout = 6000
+        self.sep_option = sep_option
 
     
         options = [
@@ -15,15 +16,14 @@ class Urgent(discord.ui.Select):
         super().__init__(placeholder='choose a option', min_values=1, max_values=1, options=options)
 
     async def callback(self, interaction):
-        channel_name = interaction.channel.name
         await interaction.response.defer()
-        pin = await interaction.followup.send(f'you have selected **{self.values[0]}**')
+        pin = await interaction.followup.send(f'you have selected **{self.sep_option}**/**{self.values[0]}**')
         await pin.pin()
-        await interaction.channel.edit(name=f'{channel_name}-{self.values[0]}')
+        await interaction.channel.edit(name=f'{self.sep_option}-{self.values[0]}')
 
 
 class UrgentView(discord.ui.View):
-    def __init__(self):
+    def __init__(self, sep_option):
         super().__init__()
 
-        self.add_item(Urgent())
+        self.add_item(Urgent(sep_option))

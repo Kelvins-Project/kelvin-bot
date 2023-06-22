@@ -6,6 +6,7 @@ import aiohttp
 from views.create import CreateView
 from views.close import CloseView
 from views.dm_close import DMCloseView
+from views.access import AccessView
 import asyncpg
 
 prefix = ['-']
@@ -41,6 +42,7 @@ class Bot(commands.Bot):
         self.add_view(CreateView())
         self.add_view(CloseView())
         self.add_view(DMCloseView())
+        self.add_view(AccessView())
         self.session = aiohttp.ClientSession()
         #self.db = await asyncpg.create_pool(db_link)
         for filename in os.listdir('./cogs'):
