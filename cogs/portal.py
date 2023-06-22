@@ -59,8 +59,6 @@ class Portal(commands.Cog):
             return
         if message.channel.topic != str(message.author.id):
             return
-        if not message.content.startswith('```') and not message.content.endswith('```'):
-            return
         match = re.findall(r'(?:https?://)?discord(?:app)?\.(?:com/invite|gg)/[a-zA-Z0-9]+/?', message.content)
         if match:
             await message.pin()
@@ -74,8 +72,6 @@ class Portal(commands.Cog):
         if before.author.bot:
             return
         if before.channel.topic != str(before.author.id):
-            return
-        if not after.content.startswith('```') and not after.content.endswith('```'):
             return
         match = re.findall(r'(?:https?://)?discord(?:app)?\.(?:com/invite|gg)/[a-zA-Z0-9]+/?', after.content)
         if match:
@@ -102,20 +98,17 @@ class Portal(commands.Cog):
         elif type == 'remove' and role in dir:
             role = ctx.guild.get_role(dir[role])
             await ctx.author.remove_roles(role)
-            await ctx.send('removed role')
+            await ctx.send(f'removed {role} from your roles')
         else:
             return await ctx.send('invalid role')
 
     @commands.hybrid_command(name='mass', description='Starts the massing process.')
     async def mass(self, ctx):
-        embed = discord.Embed(title='massing', description='- make sure you have read the embed properly or your ticket will be __**closed**__!\n- send ad in cb and non cb\n- plz list any servers you may have skipped in a __**single**__ message as the bot will auto detect the skips and be sure to read the reqs of each channel.\n- if there are no reqs listed in one of the channels it means the server has no reqs\n- servers are filtered by themes, you can use `-access`\n- u dont need to list every channel with the stars just add "skipped starred server in skip list"\n\nyou can start now, type `-done` once done', color=0x2F3136)
+        embed = discord.Embed(title='massing', description='- make sure you have read the embed properly or your ticket will be __**closed**__!\n- send ur ad in non-cb\n- plz list any servers you may have skipped in a __**single**__ message as the bot will auto detect the skips and be sure to read the reqs of each channel.\n- if there are no reqs listed in one of the channels it means the server has no reqs\n- servers are filtered by themes, you can use `-access`\n- u dont need to list every channel with the stars just add "skipped starred server in skip list"\n\nyou can start now, type `-done` once done', color=0x2F3136)
         embed.set_image(url='https://cdn.korino.dev/r/HsvKWy.png?compress=false')
         await ctx.send(embed=embed)
-    
-    @commands.hybrid_command(name='start', description='Executes the start checkpoint.')
-    async def start(self, ctx):
-        await ctx.send('1. make sure you have read the embed properly or your ticket will be __**closed**__!\n2. plz list any servers you may have skipped in a __**single**__ message as the bot will auto detect the skips and be sure to read the reqs of each channel.\n3. if there are no reqs listed in one of the channels it means the server has no reqs.\n\nyou can start now, type `-done` once done')
 
     @commands.hybrid_command(name='done', description='Executes the done checkpoint.')
     async def done(self, ctx):
-        await ctx.send(f'{ctx.author.mention} select a post method', view=DoneView())
+        embed = discord.Embed(description='pick a post method ! (u better do this part or ticket closeed `1/2`)', color=0x2F3136)
+        await ctx.send(ctx.author.mention,  embed=embed, view=DoneView())
