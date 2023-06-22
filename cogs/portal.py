@@ -102,10 +102,9 @@ class Portal(commands.Cog):
         elif type == 'remove' and role in dir:
             role = ctx.guild.get_role(dir[role])
             await ctx.author.remove_roles(role)
+            await ctx.send('removed role')
         else:
             return await ctx.send('invalid role')
-
-
 
     @commands.hybrid_command(name='mass', description='Starts the massing process.')
     async def mass(self, ctx):

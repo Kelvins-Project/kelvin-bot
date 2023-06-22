@@ -65,7 +65,7 @@ class Owner(commands.Cog):
             await ctx.send(page)
 
     @commands.command()
-    async def status(self, ctx, option : str):
+    async def status(self, ctx, *, option):
         total = 0
         channel = self.bot.get_channel(1119650620387897355)
         servers = [1098196661148340284, 1116684077236490290, 1105461295060353025, 1105462128107859978, 1105462240523600004, 1105462517586739240, 1105463989099565106]
