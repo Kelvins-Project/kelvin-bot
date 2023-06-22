@@ -100,7 +100,7 @@ class Portal(commands.Cog):
         if type == None or role == None:
            await ctx.send(view=AccessView())
         elif type == 'remove' and role in dir:
-            role = await ctx.guild.get_role(dir[role])
+            role = ctx.guild.get_role(dir[role])
             await ctx.author.remove_roles(role)
         else:
             return await ctx.send('invalid role')
