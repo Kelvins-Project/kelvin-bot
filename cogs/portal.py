@@ -95,7 +95,7 @@ class Portal(commands.Cog):
 
 
     @commands.hybrid_command(name='access', description='Gives you access to portal category.')
-    async def access(self, ctx, type=None, role: str=None):
+    async def access(self, ctx, type = None, role: str = None):
         dir = {'stox': 1105116553122435112, 'icon/decor': 1105116582730006578, 'social': 1105116620445192204, 'mnml': 1105463864012845166, 'other': 1105150560795111446}
         if type == None or role == None:
            await ctx.send(view=AccessView())
