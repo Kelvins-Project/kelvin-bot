@@ -17,7 +17,7 @@ class Done(discord.ui.Select):
         dir = {'stox': 1105116553122435112, 'icon/decor': 1105116582730006578, 'social': 1105116620445192204, 'mnml': 1105463864012845166, 'other': 1105150560795111446}
         embed = discord.Embed(description='pick a urguency ! (u better do this part or ticket closeed `2/2`)', color=0x2F3136)
         await interaction.response.defer()
-        await interaction.followup.send(f'{interaction.user.mention} select a urgentness', view=UrgentView(self.values[0]))
+        await interaction.followup.send(f'{interaction.user.mention}', embed=embed, view=UrgentView(self.values[0]))
         for ids in dir.values():
             role = interaction.guild.get_role(ids)
             await interaction.user.remove_roles(role)
