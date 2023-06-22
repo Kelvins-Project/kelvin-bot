@@ -108,7 +108,7 @@ class Portal(commands.Cog):
 
     @commands.hybrid_command(name='mass', description='Starts the massing process.')
     async def mass(self, ctx):
-        embed = discord.Embed(description='1. make sure you have read the embed properly or your ticket will be __**closed**__!\n\n2. send ad in cb and non cb\n\n3. plz list any servers you may have skipped in a __**single**__ message as the bot will auto detect the skips and be sure to read the reqs of each channel.\n\n4. if there are no reqs listed in one of the channels it means the server has no reqs\n\n5. servers are filtered by themes, you can use `-access <stox|icon/decor|social|mnml|other|all>`\n\nyou can start now, type `-done` once done', color=0x2F3136)
+        embed = discord.Embed(title='massing', description='- make sure you have read the embed properly or your ticket will be __**closed**__!\n- send ad in cb and non cb\n- plz list any servers you may have skipped in a __**single**__ message as the bot will auto detect the skips and be sure to read the reqs of each channel.\n- if there are no reqs listed in one of the channels it means the server has no reqs\n- servers are filtered by themes, you can use `-access`\n- u dont need to list every channel with the stars just add "skipped starred server in skip list"\n\nyou can start now, type `-done` once done', color=0x2F3136)
         embed.set_image(url='https://cdn.korino.dev/r/HsvKWy.png?compress=false')
         await ctx.send(embed=embed)
     
