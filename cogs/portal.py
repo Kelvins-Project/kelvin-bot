@@ -99,12 +99,11 @@ class Portal(commands.Cog):
         dir = {'stox': 1105116553122435112, 'icon/decor': 1105116582730006578, 'social': 1105116620445192204, 'mnml': 1105463864012845166, 'other': 1105150560795111446}
         if type == None or role == None:
            await ctx.send(view=AccessView())
-        elif type == 'remove' and type('role') == type(role):
-            if role not in dir:
-               return await ctx.send('invalid role')
-            else:
-                role = await ctx.guild.get_role(dir[role])
-                await ctx.author.remove_roles(role)
+        elif type == 'remove' and role in dir:
+            role = await ctx.guild.get_role(dir[role])
+            await ctx.author.remove_roles(role)
+        else:
+            return await ctx.send('invalid role')
 
 
 
