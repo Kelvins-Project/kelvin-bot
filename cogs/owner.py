@@ -38,12 +38,12 @@ class InviteMenu(ui.View, menus.MenuPages):
     async def interaction_check(self, interaction):
         return interaction.user == self.ctx.author
 
-    @ui.button(emoji='\U000025c0', style=discord.ButtonStyle.blurple)
+    @ui.button(emoji='\U000023ea', style=discord.ButtonStyle.blurple)
     async def first_page(self, interaction, button):
         await self.show_page(0)
         await interaction.response.edit_message(view=self)
 
-    @ui.button(emoji='\U000023ea', style=discord.ButtonStyle.blurple)
+    @ui.button(emoji='\U000025c0', style=discord.ButtonStyle.blurple)
     async def before_page(self, interaction, button):
         await self.show_checked_page(self.current_page - 1)
         await interaction.response.edit_message(view=self)
