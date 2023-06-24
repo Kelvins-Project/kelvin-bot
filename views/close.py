@@ -20,7 +20,7 @@ class CloseView(discord.ui.View):
         )
         message = await logs.send(file=transcript_file)
         embed = discord.Embed(description=f'{interaction.user.mention} has closed the [ticket](https://mahto.id/chat-exporter?url={message.attachments[0].url})', color=0x2F3136)
-        embed.add_field(name='by', value=user.mention)
+        embed.add_field(name='by', value=f'<@{id}>')
         embed.add_field(name='channel name', value=interaction.channel.name)
         embed.add_field(name='reason', value='none')
 
