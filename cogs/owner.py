@@ -88,7 +88,7 @@ class Owner(commands.Cog):
 
     @commands.command()
     async def load(self, ctx):
-        embed = discord.Embed(title='`` T `` `` I `` `` C `` `` K `` `` E `` `` T ``', description='**open a ticket to**:\n - hire me free or paid\n- mass with me\n\n**to mass**:\n - type `-mass` in the ticket\n- 2 ads pr ticket; 1 ticket per user\n\n__follow the instructions in the ticket after__', color=0x2F3136)
+        embed = discord.Embed(title='`` T `` `` I `` `` C `` `` K `` `` E `` `` T ``', description='**open a ticket to**:\n - hire me free or paid\n- mass with me\n\n**to mass**:\n - type `-mass` in the ticket\n- 1 ad pr ticket; 3 tickets pr user, BYPASS: 1 ad ; unlimited tickets\n\n__follow the instructions in the ticket after__', color=0x2F3136)
         await ctx.send(embed=embed, view=CreateView())
 
     @commands.command()
